@@ -8,7 +8,7 @@ const Homepage = () => {
   const handleGenreClick = async (selectedGenre) => {
     setGenre(selectedGenre);
     try {
-      const response = await axios.get(`http://localhost:5000/genres?genre=${selectedGenre}`);
+      const response = await axios.get(`/api/genres?genre=${selectedGenre}`);
       setGames(response.data);
     } catch (err) {
       console.log("Error connecting: ", err);
