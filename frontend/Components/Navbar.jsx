@@ -5,9 +5,7 @@ const Navbar = () => {
   return (
     <div>
       <ul style={{ padding: '30px' }} className="bg-black text-rose-400 flex justify-between">
-        <li>
-          LOGO
-        </li>
+        <li>LOGO</li>
         <li className="hover:underline cursor-pointer transition duration-300 relative">
           <Link to="/" className="text-rose-400">
             Home

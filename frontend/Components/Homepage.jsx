@@ -8,10 +8,12 @@ const Homepage = () => {
   const handleGenreClick = async (selectedGenre) => {
     setGenre(selectedGenre);
     try {
-      const response = await axios.get(`/api/genres?genre=${selectedGenre}`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/genres?genre=${selectedGenre}`
+      );
       setGames(response.data);
     } catch (err) {
-      console.log("Error connecting: ", err);
+      console.log('Error connecting: ', err);
     }
   };
 
@@ -24,7 +26,18 @@ const Homepage = () => {
 
           {/* Genre buttons */}
           <div className="w-full space-y-3">
-            {['action', 'adventure', 'rpg', 'shooter', 'strategy', 'sports', 'racing', 'simulation', 'horror', 'fighting'].map((genreItem) => (
+            {[
+              'action',
+              'adventure',
+              'rpg',
+              'shooter',
+              'strategy',
+              'sports',
+              'racing',
+              'simulation',
+              'horror',
+              'fighting',
+            ].map((genreItem) => (
               <button
                 key={genreItem}
                 onClick={() => handleGenreClick(genreItem)}
@@ -45,12 +58,23 @@ const Homepage = () => {
           {games.length > 0 ? (
             <ul className="space-y-4">
               {games.map((game, index) => (
-                <li key={index} className="bg-slate-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                <li
+                  key={index}
+                  className="bg-slate-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                >
                   <h3 className="text-2xl font-bold text-rose-400">{game.Title}</h3>
-                  <p><strong className="text-rose-300">Genre:</strong> {game.Metadata.Genres}</p>
-                  <p><strong className="text-rose-300">Publisher:</strong> {game.Metadata.Publishers}</p>
-                  <p><strong className="text-rose-300">Max Players:</strong> {game.Features["Max Players"]}</p>
-                  <p><strong className="text-rose-300">Review Score:</strong> {game.Metrics["Review Score"]}</p>
+                  <p>
+                    <strong className="text-rose-300">Genre:</strong> {game.Metadata.Genres}
+                  </p>
+                  <p>
+                    <strong className="text-rose-300">Publisher:</strong> {game.Metadata.Publishers}
+                  </p>
+                  <p>
+                    <strong className="text-rose-300">Max Players:</strong> {game.Features['Max Players']}
+                  </p>
+                  <p>
+                    <strong className="text-rose-300">Review Score:</strong> {game.Metrics['Review Score']}
+                  </p>
                 </li>
               ))}
             </ul>
