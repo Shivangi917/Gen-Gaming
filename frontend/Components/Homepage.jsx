@@ -3,17 +3,21 @@ import axios from 'axios';
 
 const Homepage = () => {
   const [genre, setGenre] = useState('');
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState([]); // State to store the game list
+
+  const fetchGame = (gameTitle) => {
+    const url = `https://www.google.com/search?q=${encodeURIComponent(gameTitle)}`;
+    window.open(url, "_blank"); // Opens in a new tab
+  };
+  
 
   const handleGenreClick = async (selectedGenre) => {
     setGenre(selectedGenre);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/genres?genre=${selectedGenre}`
-      );
-      setGames(response.data);
+      const response = await axios.get(`http://localhost:5000/genres?genre=${selectedGenre}`);
+      setGames(response.data); // Store the received game list
     } catch (err) {
-      console.log('Error connecting: ', err);
+      console.log("Error connecting: ", err);
     }
   };
 
@@ -26,18 +30,7 @@ const Homepage = () => {
 
           {/* Genre buttons */}
           <div className="w-full space-y-3">
-            {[
-              'action',
-              'adventure',
-              'rpg',
-              'shooter',
-              'strategy',
-              'sports',
-              'racing',
-              'simulation',
-              'horror',
-              'fighting',
-            ].map((genreItem) => (
+            {['action', 'adventure', 'rpg', 'strategy', 'sports', 'racing', 'simulation', 'driving'].map((genreItem) => (
               <button
                 key={genreItem}
                 onClick={() => handleGenreClick(genreItem)}
@@ -58,28 +51,19 @@ const Homepage = () => {
           {games.length > 0 ? (
             <ul className="space-y-4">
               {games.map((game, index) => (
-                <li
-                  key={index}
-                  className="bg-slate-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                >
+                <li key={index} className="bg-slate-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
                   <h3 className="text-2xl font-bold text-rose-400">{game.Title}</h3>
-                  <p>
-                    <strong className="text-rose-300">Genre:</strong> {game.Metadata.Genres}
-                  </p>
-                  <p>
-                    <strong className="text-rose-300">Publisher:</strong> {game.Metadata.Publishers}
-                  </p>
-                  <p>
-                    <strong className="text-rose-300">Max Players:</strong> {game.Features['Max Players']}
-                  </p>
-                  <p>
-                    <strong className="text-rose-300">Review Score:</strong> {game.Metrics['Review Score']}
-                  </p>
+                  <p><strong className="text-rose-300">Genre:</strong> {game.Metadata.Genres}</p>
+                  <p><strong className="text-rose-300">Publisher:</strong> {game.Metadata.Publishers}</p>
+                  <p><strong className="text-rose-300">Max Players:</strong> {game.Features["Max Players"]}</p>
+                  <p><strong className="text-rose-300">Review Score:</strong> {game.Metrics["Review Score"]}</p>
+                  <button onClick={() => fetchGame(game.Title)}
+                  className='cursor-pointer bg-rose-300 p-4 mt-3 rounded-md text-white hover:bg-rose-400 transition'>Open in Chrome</button>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No games found.</p>
+            <p className='text-4xl'>My favourite is GTA VICE CITY.</p>
           )}
         </div>
       </div>
